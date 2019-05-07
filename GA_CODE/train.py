@@ -12,66 +12,7 @@ from talib import MA_Type
 import logging
 from sklearn.metrics import mean_squared_error
 
-
 early_stopper = EarlyStopping(patience=5)
-def getdata(path):
-
-    """Read data from CSV"""
-
-    raw = pd.read_csv(path,usecols=[0,1,2,3,4,5],skiprows=1)
-    #path = file location from main()
-    raw.columns = ['Date','Open','High','Low','Close','Volumn']
-    raw['Date'] = raw['Date'].apply(lambda y: datetime.strptime(y,'%d.%m.%Y %H:%M:%S.000'))
-    raw = raw[(raw['Date'].dt.year >=2015)] #data range(2011-2018)
-    raw = raw.drop_duplicates(keep=False)
-    print('INFO:All data is extracted successfully')
-
-    return raw
-
-def candlebar_analysis(raw):
-
-    openprice=raw['Open'].astype(float).values
-    highprice=raw['High'].astype(float).values
-    lowprice=raw['Low'].astype(float).values
-    closeprice=raw['Close'].astype(float).values
-    avg_price = talib.AVGPRICE(openprice, highprice, lowprice, closeprice)
-    print('INFO:Candle Parameters is created')
-
-
-    return openprice, highprice, lowprice, closeprice, avg_price
-
-def technical_analysis(openprice, highprice, lowprice, closeprice, avg_price):
-
-    sma_240 = talib.SMA(openprice, timeperiod=240) #sma_240 = 10 Days Avg
-    ATR =talib.ATR(openprice,lowprice,closeprice,timeperiod=24)
-    #RSI = talib.RSI(closeprice,120)
-    bollupper,bollmiddle,bolllower = talib.BBANDS(closeprice,nbdevup=2, nbdevdn=2, matype=MA_Type.T3)
-    print ('INFO: Technical Parameters is calculated')
-
-    return avg_price, sma_240, bollupper, bollmiddle, bolllower, ATR
-
-def series_to_supervised(data, n_in, n_out, dropnan=True):
-    n_vars = 1 if type(data) is list else data.shape[1]
-    df = pd.DataFrame(data)
-    cols, names = list(), list()
-    # input sequence (t-n, ... t-1)
-    for i in range(n_in, 0, -1):
-        cols.append(df.shift(i))
-        names += [('var%d(t-%d)' % (j+1, i)) for j in range(n_vars)]
-    # forecast sequence (t, t+1, ... t+n)
-    for i in range(0, n_out):
-        cols.append(df.shift(-i))
-        if i == 0:
-            names += [('var%d(t)' % (j+1)) for j in range(n_vars)]
-        else:
-            names += [('var%d(t+%d)' % (j+1, i)) for j in range(n_vars)]
-    # put it all together
-    agg = pd.concat(cols, axis=1)
-    agg.columns = names
-    # drop rows with NaN values
-    if dropnan:
-        agg.dropna(inplace=True)
-    return agg
 
 def getdata(path):
 
@@ -94,8 +35,6 @@ def candlebar_analysis(raw):
     closeprice=raw['Close'].astype(float).values
     avg_price = talib.AVGPRICE(openprice, highprice, lowprice, closeprice)
 
-
-
     return openprice, highprice, lowprice, closeprice, avg_price
 
 def technical_analysis(openprice, highprice, lowprice, closeprice, avg_price):
@@ -104,7 +43,6 @@ def technical_analysis(openprice, highprice, lowprice, closeprice, avg_price):
     ATR =talib.ATR(openprice,lowprice,closeprice,timeperiod=24)
     #RSI = talib.RSI(closeprice,120)
     bollupper,bollmiddle,bolllower = talib.BBANDS(closeprice,nbdevup=2, nbdevdn=2, matype=MA_Type.T3)
-
 
     return avg_price, sma_240, bollupper, bollmiddle, bolllower, ATR
 
