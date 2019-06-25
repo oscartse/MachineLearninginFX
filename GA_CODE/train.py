@@ -123,15 +123,14 @@ def train_and_score(network, dataset, path):
     if dataset == 'EURUSD60':
 
         raw = getdata(path)
-        openprice, highprice, lowprice, closeprice, avg_price = candlebar_analysis(raw)
-        avg_price, sma_240, bollupper, bollmiddle, bolllower, ATR = technical_analysis(openprice, highprice, lowprice,
-                                                                                       closeprice, avg_price)
+        open, high, low, close, avg = candlebar_analysis(raw)
+        avg_price, sma_240, bollupper, bollmiddle, bolllower, ATR = technical_analysis(open, high, low, close, avg)
         nb_classes, batch_size, input_shape, x_train, x_test, y_train, y_test, scaler = reshaping(avg_price, sma_240,
                                                                                                   bollupper, bollmiddle,
                                                                                                   bolllower, ATR)
 
     model = compile_model(network, nb_classes, input_shape)
-    epoch = 2
+    epoch = 3
 
     history = model.fit(x_train, y_train,  epochs=epoch,  batch_size=batch_size, verbose=0)
 
