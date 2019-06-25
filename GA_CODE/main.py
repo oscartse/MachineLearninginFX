@@ -56,7 +56,7 @@ def generate(generations, population, nn_param_choices, dataset, path):
 
         # Print out the average accuracy each generation.
         logging.info("Generation average: %.2f%%" % (average_accuracy * 100))
-        logging.info('-'*80)
+        logging.info('='*80)
 
         # Evolve, except on the last iteration.
         if i != generations - 1:
