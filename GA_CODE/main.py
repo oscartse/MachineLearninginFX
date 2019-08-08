@@ -1,7 +1,6 @@
 """Entry point to evolving the neural network. Start here."""
 import logging
 import sys
-#sys.path.insert(0, 'C:/Users/LokFung/Desktop/IERGYr4/IEFYP/IEFYP-GA/neural-network-genetic-algorithm-master')
 from optimizer import Optimizer
 from tqdm import tqdm
 import os
