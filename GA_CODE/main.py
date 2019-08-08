@@ -1,6 +1,7 @@
 """Entry point to evolving the neural network. Start here."""
 import logging
 import sys
+#sys.path.insert(0, 'C:/Users/LokFung/Desktop/IERGYr4/IEFYP/IEFYP-GA/neural-network-genetic-algorithm-master')
 from optimizer import Optimizer
 from tqdm import tqdm
 import os
@@ -56,7 +57,7 @@ def generate(generations, population, nn_param_choices, dataset, path):
 
         # Print out the average accuracy each generation.
         logging.info("Generation average: %.2f%%" % (average_accuracy * 100))
-        logging.info('='*80)
+        logging.info('-'*80)
 
         # Evolve, except on the last iteration.
         if i != generations - 1:
