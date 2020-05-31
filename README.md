@@ -15,3 +15,6 @@ To first generate random models then evaluate based on performance, after that s
   
 # Testing whether it is profitable or not
 Using PyAlgoTrade libuary to backtest data generated combining with stragegies
+
+# Contributions
+This project is a group project with clarence Fung and supervised by Automated Machine Learning Ltd. 
